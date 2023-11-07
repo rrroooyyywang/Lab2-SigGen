@@ -1,6 +1,7 @@
 #include "verilated.h"
 #include "verilated_vcd_c.h"
 #include "Vsigdelay.h"
+#include "cmath"
 
 #include "vbuddy.cpp"     // include vbuddy code
 #define MAX_SIM_CYC 1000000
@@ -21,7 +22,7 @@ int main(int argc, char **argv, char **env) {
   tfp->open ("sigdelay.vcd");
  
   // init Vbuddy
-  if (vbdOpen()!=1) return(-1);
+  while (vbdOpen()!=1);
   vbdHeader("L2T3:Delay");
   //vbdSetMode(1);        // Flag mode set to one-shot
 
@@ -44,7 +45,9 @@ int main(int argc, char **argv, char **env) {
       top->eval ();
     }
     top->mic_signal = vbdMicValue();
+    //top->mic_signal = cos(10*3.1416*simcyc/256)*127+127;   //test
     top->offset = abs(vbdValue());     // adjust delay by changing incr
+    printf("%i\n", top->offset);
 
     // plot RAM input/output, send sample to DAC buffer, and print cycle count
     vbdPlot(int (top->mic_signal), 0, 255);
