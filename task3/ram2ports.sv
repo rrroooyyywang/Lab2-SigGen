@@ -15,7 +15,7 @@ module ram2ports #(
 );
     
 logic [DATA_WIDTH - 1: 0] ram_array [(2**ADDRESS_WIDTH) - 1: 0];
-/*
+
 initial begin
     $display("init ram.");
     for (int init_addr = 0; init_addr < 2**ADDRESS_WIDTH - 1; init_addr++) begin
@@ -23,7 +23,7 @@ initial begin
     end;
     $display("init finished.");
 end;
-*/
+
 always_ff @(posedge clk) begin
 
     if((wr_en == 1'b1) && (rd_en == 1'b1))begin
